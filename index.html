@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>As aventuras de ladbug</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Pacifico&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red-primary: #a70712;
+            --red-dark: #a70712;
+            --black: #000000;
+            --white: #f1faee;
+            --accent: #f5a8e8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            color: var(--black);
+            background: linear-gradient(135deg, #300101 0%, #0a6d01 100%);
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: var(--red-primary);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 50px rgb(253, 8, 180);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        .logo h1 {
+            color: var(--white);
+            font-family: 'Pacifico', cursive;
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        
+        main {
+            margin-top: 80px;
+        }
+
+        section {
+            padding: 5rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--red-dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -10px;
+            left: 0;
+            background-color: var(--red-primary);
+            border-radius: 2px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Home Section */
+        #home {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('imagem/maxresdefault.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            font-family: 'Poppins', sans-serif;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--red-primary);
+            color: var(--white);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid var(--red-primary);
+            animation: fadeIn 1s ease 1s both;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .ladybug {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-image: url('ladybug.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: float 15s linear infinite;
+        }
+
+        .ladybug:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-duration: 20s;
+            animation-delay: 0s;
+        }
+
+        .ladybug:nth-child(2) {
+            top: 50%;
+            right: 15%;
+            animation-duration: 25s;
+            animation-delay: 5s;
+        }
+
+        .ladybug:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            animation-duration: 18s;
+            animation-delay: 2s;
+        }
+        #info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .info-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-card {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--red-primary);
+        }
+        #curiosities {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c2c7 100%);
+        }
+
+        .curiosity-item {
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .curiosity-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--red-primary);
+        }
+
+        .curiosity-item:hover {
+            transform: translateX(10px);
+        }
+
+        .curiosity-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--red-dark);
+        }
+
+        /* Images Section */
+        #images {
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            height: 250px;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--white);
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        #videos {
+            background: linear-gradient(135deg, #212529 0%, #343a40 100%);
+            color: var(--white);
+        }
+
+        .video-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-caption {
+            padding: 1rem;
+            background-color: var(--red-primary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            margin: 1rem 0;
+        }
+
+        .social-links a {
+            color: var(--white);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--red-primary);
+        }
+
+        .copyright {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #adb5bd;
+        }
+
+        /* Animations */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(100px, 50px) rotate(90deg);
+            }
+            50% {
+                transform: translate(200px, 0) rotate(180deg);
+            }
+            75% {
+                transform: translate(100px, -50px) rotate(270deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+
+            .logo {
+                margin-bottom: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+   
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="imagem/logo-removebg-preview.png" alt="Ladybug Logo">
+                <h1>Ladybug</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#info">Informações</a></li>
+                    <li><a href="#curiosities">Curiosidades</a></li>
+                    <li><a href="#images">Imagens</a></li>
+                    <li><a href="#videos">Vídeos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    
+    <main>
+        <section id="home">
+            <div class="ladybug"></div>
+            <div class="ladybug"></div>
+            <div class="ladybug"></div>
+            <div class="container hero-content">
+                <h1 class="hero-title">Ladblog🐞</h1>
+                <p class="hero-subtitle">Bem-vindo ao Ladblog, onde cada mistério tem uma pista e cada herói tem uma história.</p>
+                <a href="#info" class="btn">Explorar</a>
+            </div>
+        </section>
+
+        <section id="info">
+            <div class="container">
+                <h2>Informações</h2>
+                <div class="info-container">
+                    <div class="info-card">
+                        <h3>Quem é ladbug?</h3>
+                        <p>Ladybug é a heroína determinada que protege Paris com seu Miraculous da joaninha, utilizando o poder da criação para enfrentar qualquer ameaça. Com estratégia, coragem e seu icônico ioiô, ela sempre encontra uma solução para derrotar os vilões e restaurar a paz.</p>
+                        <p> Ao seu lado está seu parceiro Cat Noir, que, com o poder da destruição, complementa a luta com seu charme e habilidade. Juntos, eles formam uma dupla imbatível, equilibrando força e inteligência para salvar a cidade! 🐞🐾</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Hawk Moth🦹:</h3>
+                        <p>Ladybug e Cat Noir lutam para proteger Paris dos vilões criados por Hawk Moth, o grande antagonista da história.</p>
+                        <p> Ele usa seu poder para corromper pessoas através de akumas, transformando-as em supervilões movidos por emoções negativas. A missão dos heróis é impedir que Hawk Moth roube seus Miraculous, pois, se ele conseguir, terá poder absoluto para realizar seus planos sombrios</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Vida pessoal:</h3>
+                        <p>A "vida pessoal" da Ladybug é bem complicada! Quando não está salvando Paris, Marinette Dupain-Cheng é uma estudante talentosa e sonhadora, apaixonada por moda e claro por Adrien Agreste (sem saber que ele é o Cat Noir!). Entre criar designs incríveis, ajudar seus amigos e lidar com as responsabilidades de ser uma heroína, ela vive cheia de desafios e mal tem tempo para respirar.</p>
+
+            </div>
+        </section>
+
+    
+        <section id="curiosities">
+            <div class="container">
+                <h2>Curiosidades</h2>
+                <div class="curiosity-item">
+                    <h3>Miraculous</h3>
+                    <p> O Miraculous da joaninha dá um poder único! Ladybug tem o poder da criação e pode invocar um objeto especial durante suas lutas, conhecido como "Lucky Charm". Esse objeto sempre ajuda a resolver o problema do momento, mas exige que ela use sua inteligência para descobrir como utilizá-lo.</p>
+                <div class="curiosity-item">
+                    <h3> Identidades secretas</h3>
+                    <p> Identidades secretas superconfusas! Marinette não sabe que Adrien é Cat Noir, e Adrien não sabe que Ladybug é Marinette. Essa dinâmica cria momentos superinteressantes, cheios de mistério e reviravoltas.</p>                </div>
+                <div class="curiosity-item">
+                    <h3>Crush💕</h3>
+                    <p>O crush complicado! Marinette é apaixonada por Adrien, mas ele está interessado em Ladybug. O problema? Ela mesma é Ladybug! Isso gera uma confusão emocional hilária e frustra muitos fãs que torcem pelo casal.</p>                </div>
+                <div class="curiosity-item">
+                    <h3>Nova Guardiã</h3>
+                    <p>Ladybug não é apenas a heroína de Paris, agora ela também é a Guardiã dos Miraculous! Depois de uma grande reviravolta na luta contra os vilões, Marinette assumiu a responsabilidade de proteger a caixa dos Miraculous, tornando-se a líder que decide quem pode usá-los.</p>                </div>
+                <div class="curiosity-item">
+                    <h3>Purificar os akumas</h3>
+                    <p>Sabia que Ladybug é a única heroína que pode purificar os akumas? Enquanto outros heróis podem derrotar vilões e ajudar na batalha, somente Ladybug tem a habilidade especial de reverter o dano causado pelo Hawk Moth. Quando um vilão é derrotado, ela usa seu ioiô para capturar a borboleta corrompida e a purifica, devolvendo-a ao normal. Isso significa que, sem ela, os vilões continuariam espalhando o caos!</p>                </div>
+            </div>
+        </section>
+
+        <!-- Images Section -->
+        <section id="images">
+            <div class="container">
+                <h2>Galeria de Imagens</h2>
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <img src="imagem/amigos.jpg" alt="amigos de marinette">
+                        <div class="gallery-caption">Amigos de Marinette</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="imagem/acumatizado.jpg" alt=acumatizado">
+                        <div class="gallery-caption">Acumatizados</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="imagem/caixa.jpg" alt="caixa dos miraculous">
+                        <div class="gallery-caption">Caixa dos Miraculous</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="imagem/mayura.png" alt="Mayura">
+                        <div class="gallery-caption">Vilã Mayura</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="imagem/imagem de lad e cat.jpg" alt="Identidade">
+                        <div class="gallery-caption">Identidades secretas </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="imagem/popo.jpg" alt="Hawk Moth">
+                        <div class="gallery-caption">Vilão Hawk Moth</div>
+            </div>
+        </section>
+
+        <!-- Videos Section -->
+        <section id="videos">
+            <div class="container">
+                <h2>Vídeos Incríveis</h2>
+                <div class="video-gallery">
+        
+                    <div class="video-item">
+                        <div class="video-container">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/VTq4Owqp1Uo" title="TRAILER MIRACULOUS SEASON 6 - FANMADE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-caption">
+                            <h3>Trailer 6° temporada</h3>
+                            <p>Veja o trailer da 6° temporada de Miraculous</p>
+                        </div>
+                    </div>
+    
+                    <div class="video-item">
+                        <div class="video-container">
+                            <iframe width="560" height="315" src="https://youtu.be/stejWyijl1A?si=qdJZ-Wpr0nzymmOK" title=" TRAILER MIRACULOS SEASON 5 " frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-caption">
+                            <h3>Trailer 5° temporada</h3>
+                            <p> TRAILER - SEASON 5 </p>
+                        </div>
+                    </div>
+        
+                    <div class="video-item">
+                        <div class="video-container">
+                            <iframe width="560" height="315" src="https://youtu.be/y5SJ7pUtOfY?si=BT14APS489DmwoWz" title="TRAILER MIRACULOS SEASON 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-caption">
+                            <h3>Trailer 1° temporada</h3>
+                            <p> TRAILER - SEASON 1 </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">
+                <h2 style="font-family: 'Pacifico', cursive; margin-top: 10px;">🐞🐾</h2>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p class="copyright">&copy; 2025 Ladybug🐞. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Joaninhas Animadas</title>
+        <style>
+            .joaninha img {
+                width: 60px;
+                height: auto;
+            }
+    
+            .joaninha {
+                position: absolute;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="joaninha1" class="joaninha">
+            <img src="imagem/tikki-removebg-preview.png" alt="Joaninha 1">
+        </div>
+        <div id="joaninha2" class="joaninha">
+            <img src="imagem/574-5740128_black-do-cat-noir-removebg-preview (1).png" alt="Joaninha 2">
+        </div>
+        <div id="joaninha3" class="joaninha">
+            <img src="imagem/a663817ae9730868062f00561717a687-removebg-preview (2).png" alt="Joaninha 3">
+        </div>
+        <div id="joaninha4" class="joaninha">
+            <img src="imagem/Daizzi_Quadrat-removebg-preview (1).png" alt="Joaninha 4">
+        </div>
+        <div id="joaninha5" class="joaninha">
+            <img src="imagem/static-assets-upload11668092255459380779-removebg-preview.png" alt="Joaninha 5">
+        </div>
+    
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const joaninhas = [
+    { el: document.getElementById("joaninha1"), x: 10, y: 0, dx: 10, dy: 7 },
+    { el: document.getElementById("joaninha2"), x: document.documentElement.scrollWidth - 10, y: document.documentElement.scrollHeight - 10, dx: -8, dy: -6 },
+    { el: document.getElementById("joaninha3"), x: 40, y: 120, dx: 7, dy: -10 },
+    { el: document.getElementById("joaninha4"), x: 100, y: 130, dx: -7, dy: 10 },
+    { el: document.getElementById("joaninha5"), x: 300, y: 300, dx: 9, dy: -5 }
+];
+                function moverJoaninhas() {
+                    joaninhas.forEach((joaninha) => {
+                        joaninha.x += joaninha.dx;
+                        joaninha.y += joaninha.dy;
+    
+                        joaninha.el.style.left = joaninha.x + "px";
+                        joaninha.el.style.top = joaninha.y + "px";
+    
+                        if (joaninha.x >= document.documentElement.scrollWidth - 10 || joaninha.x <= 0) {
+                            joaninha.dx *= -1;
+                        }
+                        if (joaninha.y >= document.documentElement.scrollHeight - 10 || joaninha.y <= 0) {
+                            joaninha.dy *= -1;
+                        }
+                    });
+    
+                    requestAnimationFrame(moverJoaninhas);
+                }
+    
+                joaninhas.forEach(joaninha => joaninha.el.style.position = "absolute");
+    
+                moverJoaninhas();
+            });
+        </script>
+    </body>
+    </html>
